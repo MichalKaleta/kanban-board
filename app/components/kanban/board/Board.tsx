@@ -1,25 +1,19 @@
 "use client";
-import { SortableTree } from "dnd-kit-sortable-tree";
 import { useSelector, useDispatch } from "react-redux";
+import { SortableTree } from "dnd-kit-sortable-tree";
 import {
-	removeItem,
-	addItem,
-	changeItemValue,
 	reorderItems,
+	addItem,
 	undo,
 	redo,
 } from "../../../../lib/features/board/boardSlice";
-import { TaskItem, AddButton } from "../taskItem";
-import "./Board.scss";
+import { TaskItemWrapper, AddButton } from "../taskItem";
+import styles from "./Board.module.css";
+import { TaskItem } from "../types";
 
 //BoardInterface[]
 export const Board = () => {
-	const items = useSelector(
-		(state: { board }) =>{ 
-            
-            console.log(state)
-            return state.board}
-	);
+	const items = useSelector((state: { board: TaskItem[] }) => state.board);
 	const dispatch = useDispatch();
 
 	function handleKeyDown(pressed: React.KeyboardEvent) {
@@ -34,30 +28,48 @@ export const Board = () => {
 	}
 
 	return (
-		<ul className="board__container" onKeyDown={handleKeyDown} tabIndex={0}>
-			{items.length ? (
-				<SortableTree
-					items={items}
-					onItemsChanged={(newOrder) =>
-						dispatch(reorderItems(newOrder))
-					}
-					//@ts-ignore
-					TreeItemComponent={TaskItem}
-					addItem={(parentId: string) => dispatch(addItem(parentId))}
-					removeItem={(id: string) => {
+		<div className={styles.board}>
+			<ul className={styles.list} onKeyDown={handleKeyDown} tabIndex={0}>
+				{items.length ? (
+					<SortableTree
+						items={items.filter(({ column }) => column === 0)}
+						onItemsChanged={(newOrder) => {
+							dispatch(reorderItems(newOrder));
+						}}
+						keepGhostInPlace={false}
+						//@ts-ignore
+						TreeItemComponent={TaskItemWrapper}
+					/>
+				) : (
+					<AddButton
+						onClickhandler={() =>
+							dispatch(addItem({ id: null, parentId: null }))
+						}
+					/>
+				)}
+			</ul>
+			<ul className={styles.list} onKeyDown={handleKeyDown} tabIndex={0}>
+				{items.length ? (
+					<SortableTree
+						items={items.filter(({ column }) => column === 1)}
+						onItemsChanged={(newOrder) =>
+							dispatch(reorderItems(newOrder))
+						}
+						//@ts-ignore
+						TreeItemComponent={TaskItemWrapper}
+						//addItem={(parentId: string) => dispatch(addItem(parentId))}
+						/* removeItem={(id: string) => {
 						dispatch(removeItem(id));
-					}}
-					changeItemValue={(value: string, id: string) =>
-						dispatch(changeItemValue({ value, id }))
-					}
-				/>
-			) : (
-				<AddButton
-					onClickhandler={() =>
-						dispatch(addItem({ id: null, parentId: null }))
-					}
-				/>
-			)}
-		</ul>
+					}} */
+					/>
+				) : (
+					<AddButton
+						onClickhandler={() =>
+							dispatch(addItem({ id: null, parentId: null }))
+						}
+					/>
+				)}
+			</ul>
+		</div>
 	);
 };

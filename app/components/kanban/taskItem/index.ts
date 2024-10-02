@@ -1,1 +1,1 @@
-export * from "./TaskItem";
+export * from "./TaskItemWrapper";

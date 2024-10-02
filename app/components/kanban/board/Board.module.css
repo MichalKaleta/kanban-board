@@ -1,0 +1,23 @@
+.board {
+	display: flex;
+	margin: 16px;
+	gap: 32px;
+
+	.list {
+		flex: 1;
+		display: inline-flex;
+		flex-direction: column;
+		flex-basis: 598px;
+		max-width: 50%;
+		min-height: 100vh;
+		margin: 16px 76px;
+		padding: 16px;
+		border-radius: 16px;
+		ssbackground-color: #ecf1fd;
+		overflow-y: auto;
+		overflow-x: hidden;
+		margin: auto;
+		background-color: #e9ffe9;
+		box-shadow: inset 8px 8px 8px rgba(0, 0, 0, 0.1);
+	}
+}

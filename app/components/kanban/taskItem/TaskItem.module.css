@@ -1,0 +1,88 @@
+.wrapper {
+	padding: 0px;
+	max-width: 100%;
+	flex-basis: 100%;
+	cursor: grab;
+	margin: 8px;
+}
+
+.content {
+	border: none !important;
+	padding: 0 !important;
+}
+
+.inner {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	min-height: 50px;
+	padding: 8px 16px;
+	margin: 0;
+	border-radius: 2px;
+	background-color: rgb(255, 209, 243);
+	box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.2),
+		-10px -10px 10px rgba(255, 255, 255, 0.9);
+	outline: none;
+	color: #001c39;
+
+	&.inner_complete {
+		background-color: rgb(255, 216, 240);
+		background-color: rgb(225, 179, 213);
+		animation-duration: 0.3s;
+		box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.2);
+		animation-name: bounce;
+		color: #eee;
+		text-decoration: line-through;
+	}
+}
+
+.options {
+	width: 44px;
+	height: 34px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.add {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	height: 50px;
+	padding: 12px 16px;
+	margin: 0 8px;
+	color: #88819f;
+	font-weight: 600;
+	font-size: 16px;
+}
+
+.input {
+	width: 90%;
+	border: none !important;
+	height: 34px;
+	border-bottom: 1px solid #333 !important;
+	font: inherit;
+	white-space: wrap;
+}
+
+@keyframes bounce {
+	10% {
+		scale: 96%;
+		box-shadow: none;
+	}
+	25% {
+		scale: 104%;
+		box-shadow: 0px 0px 3px 1px #12033e1a;
+	}
+	50% {
+		scale: 95%;
+	}
+	80% {
+		scale: 102%;
+		box-shadow: 0px 0px 2px 0px #12033e1a;
+	}
+	100% {
+		scale: 98%;
+	}
+}

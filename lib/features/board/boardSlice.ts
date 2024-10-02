@@ -1,25 +1,50 @@
 // @ts-nocheck
-import { createSlice, current,buildCreateSlice } from "@reduxjs/toolkit";
+import { createSlice, current, buildCreateSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 import { BoardInterface } from "../types";
 import { flatArray, nestArray } from "../../arrayHelpers";
 
-const localSave = JSON.parse(localStorage.getItem("items"));
+const localSave = false; // JSON.parse(localStorage.getItem("items"));
+const arr = [
+	{
+		id: "1",
+		value: "dress youself for gods sake!",
+		parentId: null,
+		column: 0,
+	},
+	{
+		id: "2",
+		value: "put some pants on",
+		parentId: 1,
+		column: 0,
+	},
+	{
+		id: "3",
+		value: "put sweater on",
+		parentId: 1,
+		column: 0,
+	},
+	{
+		id: "4",
+		value: "first put on a shirt ",
+		parentId: 3,
+		column: 0,
+	},
+	{
+		id: "11",
+		value: "make burgers",
+		parentId: null,
+		column: 1,
+	},
+	{
+		id: "12",
+		value: "grill meat",
+		parentId: 11,
+		column: 1,
+	},
+];
 
-const initialState: BoardInterface | Record<string, never> = nestArray(
-	localSave || [
-		{
-			id: "1",
-			value: "do stuff",
-			parentId: "",
-		},
-		{
-			id: "2",
-			value: "do smaller stuff",
-			parentId: "1",
-		},
-	]
-);
+const initialState: BoardInterface | Record<string, never> = nestArray(arr);
 
 const history = [...initialState];
 let currentIndex = 0;
@@ -38,7 +63,6 @@ export const boardSlice = createSlice({
 			const items = [...current(state)];
 			const { parentId } = action.payload;
 			const newItem = { id: uuidv4(), value: "write something" };
-
 			if (parentId !== null) {
 				newItem.parentId = parentId;
 			}
@@ -51,14 +75,13 @@ export const boardSlice = createSlice({
 
 		removeItem(state, action) {
 			const items = [...current(state)];
-
 			const id = action.payload;
-
 			const newItems = flatArray(items).filter((item) => item.id != id);
 			let a = nestArray(newItems);
 			addToHistory(a);
 			return a;
 		},
+
 		changeItemValue(state, action) {
 			const items = [...current(state)];
 			const { value, id } = action.payload;
@@ -72,14 +95,18 @@ export const boardSlice = createSlice({
 			addToHistory(a);
 			return a;
 		},
+
 		reorderItems(state, action) {
+			console.log(state);
 			return action.payload;
 		},
+
 		undo() {
 			currentIndex = currentIndex - 1;
 			const formerState = history[currentIndex];
 			return formerState;
 		},
+
 		redo() {
 			if (history.length > currentIndex) {
 				currentIndex = currentIndex + 1;
@@ -99,5 +126,5 @@ export const {
 	redo,
 } = boardSlice.actions;
 
-console.log(boardSlice)
-export  const boardReducer = boardSlice.reducer ;
+console.log(boardSlice);
+export const boardReducer = boardSlice.reducer;
