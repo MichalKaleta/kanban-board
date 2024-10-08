@@ -2,7 +2,6 @@ import React, { useState, useRef, forwardRef } from "react";
 import { SimpleTreeItemWrapper } from "dnd-kit-sortable-tree";
 import styles from "./TaskItem.module.css";
 import { TaskItem } from "./TaskItem";
-import { addItem } from "../../../../lib/features/board/boardSlice";
 import { AddButtonProps, TaskItemWrapperProps } from "../types";
 
 export const AddButton = ({
@@ -60,12 +59,12 @@ export const TaskItemWrapper = forwardRef(
 						<TaskItem item={item} completed={completed} />
 					</div>
 				</SimpleTreeItemWrapper>
-				{isLast && (
+				{/* 	{isLast && (
 					<AddButton
 						onClickhandler={() => addItem(item.id)}
 						depth={depth}
 					/>
-				)}
+				)} */}
 			</>
 		);
 	}

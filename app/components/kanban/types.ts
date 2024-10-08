@@ -5,17 +5,22 @@ export type TaskItem = {
 	column: number;
 };
 
-export type TaskItemProps = {
-	item: TaskItem;
-	completed: boolean;
-};
-
 export type TaskItemWrapperProps = {
 	removeItem: (id: string) => void;
 	addItem: (parentId: string) => void;
 	item: TaskItem;
 	isLast: boolean;
 	depth: number;
+};
+export type TaskItemProps = {
+	item: TaskItem;
+	completed: boolean;
+};
+
+export type EditModalProps = {
+	initValue: string;
+	id: string;
+	setEditMode: (editMode: boolean) => void;
 };
 
 export type AddButtonProps = {

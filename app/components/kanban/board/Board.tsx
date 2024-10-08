@@ -27,49 +27,25 @@ export const Board = () => {
 		}
 	}
 
+	const BoardList = ({ index = 0 }) => (
+		<ul className={styles.list} onKeyDown={handleKeyDown} tabIndex={0}>
+			{items.length && (
+				<SortableTree
+					items={items.filter(({ column }) => column === index)}
+					onItemsChanged={(newOrder) =>
+						dispatch(reorderItems(newOrder))
+					}
+					//@ts-ignore
+					TreeItemComponent={TaskItemWrapper}
+				/>
+			)}
+		</ul>
+	);
+
 	return (
 		<div className={styles.board}>
-			<ul className={styles.list} onKeyDown={handleKeyDown} tabIndex={0}>
-				{items.length ? (
-					<SortableTree
-						items={items.filter(({ column }) => column === 0)}
-						onItemsChanged={(newOrder) => {
-							dispatch(reorderItems(newOrder));
-						}}
-						keepGhostInPlace={false}
-						//@ts-ignore
-						TreeItemComponent={TaskItemWrapper}
-					/>
-				) : (
-					<AddButton
-						onClickhandler={() =>
-							dispatch(addItem({ id: null, parentId: null }))
-						}
-					/>
-				)}
-			</ul>
-			<ul className={styles.list} onKeyDown={handleKeyDown} tabIndex={0}>
-				{items.length ? (
-					<SortableTree
-						items={items.filter(({ column }) => column === 1)}
-						onItemsChanged={(newOrder) =>
-							dispatch(reorderItems(newOrder))
-						}
-						//@ts-ignore
-						TreeItemComponent={TaskItemWrapper}
-						//addItem={(parentId: string) => dispatch(addItem(parentId))}
-						/* removeItem={(id: string) => {
-						dispatch(removeItem(id));
-					}} */
-					/>
-				) : (
-					<AddButton
-						onClickhandler={() =>
-							dispatch(addItem({ id: null, parentId: null }))
-						}
-					/>
-				)}
-			</ul>
+			<BoardList index={0} />
+			<BoardList index={1} />
 		</div>
 	);
 };
