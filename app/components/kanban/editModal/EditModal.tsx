@@ -5,6 +5,7 @@ import {
 	changeItemValue,
 	removeItem,
 } from "../../../../lib/features/board/boardSlice";
+import { Input, Button } from "../../_common/Inputs";
 import { EditModalProps } from "../types";
 import styles from "./EditModal.module.css";
 
@@ -12,47 +13,45 @@ export const EditModal = (props: EditModalProps) => {
 	const { initValue, id, setEditMode } = props;
 
 	const dispatch = useDispatch();
-	const textInput = useRef<HTMLInputElement | null>(null);
-	textInput.current && textInput.current.focus();
+	//const textInput = useRef<HTMLInputElement | null>(null);
+	//textInput.current && textInput.current.focus();
 	const [value, setValue] = useState<string>("");
 
-	function handlSubmitValue(value: string, id: string) {
-		setEditMode(false);
-		//setValue("");
-
+	function handlSubmitValue() {
 		console.log(value, id);
 		dispatch(changeItemValue({ value, id }));
+		setEditMode(false);
+		setValue("");
 	}
+
 	return (
 		<div className={styles.overlay} onClick={(e) => e.stopPropagation()}>
 			<div className={styles.wrapper}>
-				<textarea
-					//@ts-ignore
-					ref={textInput}
-					className={styles.input}
-					defaultValue={initValue || ""}
-
-					/* 	onChange={(e) => {
-						e.stopPropagation();
-						setValue(e.target.value);
-					}} */
-				/>
+				<form onClick={(e) => e.stopPropagation()}>
+					<Input
+						//autoFocus={true}
+						onChange={(e) => {
+							setValue(e.target.value);
+						}}
+						defaultValue={initValue || ""}
+						value={value}
+					/>
+					{/* 	<textarea
+						//@ts-ignore
+						//ref={textInput}
+						className={styles.input}
+						defaultValue={initValue || ""}
+					/> */}
+					<Button text="OK" onClick={handlSubmitValue} />
+				</form>
 				<button
+					type="button"
 					onClick={(e) => {
-						//e.stopPropagation();
-						handlSubmitValue(value, id);
-					}}
-				>
-					OK
-				</button>
-				<div
-					onClick={(e) => {
-						//e.stopPropagation();
 						dispatch(addItem(id));
 					}}
 				>
 					subtask
-				</div>
+				</button>
 			</div>
 			;
 		</div>

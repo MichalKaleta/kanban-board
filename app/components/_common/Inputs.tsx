@@ -1,21 +1,28 @@
 import { HTMLInputTypeAttribute } from "react";
 
-type ButtonProps = {
-	className?: string;
-	text?: string | number;
-	onClick?: (...args: any) => any; //Promise<void> | void;
+type ButtonContent = {
 	children: React.ReactNode;
+	text: string | number;
 };
+
+interface ButtonProps extends Partial<ButtonContent> {
+	type: "submit" | "button" | "reset";
+	className?: string;
+	onClick?: (...args: any) => any;
+}
+
 function Button({
-	onClick,
+	type = "button",
 	text = "Submit",
 	className = "",
 	children,
+	onClick,
 }: ButtonProps) {
 	return (
 		<>
 			<button
 				className={`bg-black mx-2 mt-2 rounded-md h-11 ${className}`}
+				type={type}
 				onClick={(e) => {
 					e.preventDefault();
 					onClick && onClick(e);
@@ -43,7 +50,7 @@ type InputProps = {
 	onChange?: (...args: any | undefined) => void;
 	name?: string;
 	type?: HTMLInputTypeAttribute;
-	value?: any;
+	value: string;
 	placeholder: string | undefined;
 };
 
@@ -55,17 +62,19 @@ function Input({
 	value = "",
 	onChange,
 	className,
+	...rest
 }: InputProps) {
 	return (
 		<>
 			{label && <label htmlFor={name || label || ""}>{label}</label>}
 			<input
+				className={`w-96 border-black border-2 p-2.5 focus:outline-none focus:shadow-[2px_2px_0px_rgba(0,0,0,1)] focus:bg-[#FFA6F6] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] rounded-md m-2 ${className}`}
 				value={value}
 				name={name || label}
 				type={type}
-				className={`w-96 border-black border-2 p-2.5 focus:outline-none focus:shadow-[2px_2px_0px_rgba(0,0,0,1)] focus:bg-[#FFA6F6] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] rounded-md m-2 ${className}`}
 				placeholder={placeholder}
 				onChange={onChange}
+				{...rest}
 			/>
 		</>
 	);

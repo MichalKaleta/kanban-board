@@ -15,13 +15,12 @@ export const TaskItem = (props: TaskItemProps) => {
 
 	const [editMode, setEditMode] = useState<boolean>(false);
 
+	const dispatch = useDispatch();
+
 	return (
 		<div
-			className={
-				completed
-					? [styles.inner_complete, styles.inner].join(" ")
-					: styles.inner
-			}
+			className={`border-black border-2 p-2.5 focus:outline-none shadow-[2px_2px_0px_rgba(0,0,0,1)] bg-[#FFA6F6] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] rounded-md m-2 
+				${completed ? [styles.inner_complete, styles.inner].join(" ") : styles.inner}`}
 		>
 			{!editMode ? (
 				//TODO: style edit mode, stop propagations,  maybe edit in modal
