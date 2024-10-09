@@ -18,14 +18,30 @@ export const TaskItem = (props: TaskItemProps) => {
 	const dispatch = useDispatch();
 
 	return (
-		<div
-			className={`border-black border-2 p-2.5 focus:outline-none shadow-[2px_2px_0px_rgba(0,0,0,1)] bg-[#FFA6F6] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] rounded-md m-2 
+		<>
+			<div
+				className={`border-black border-2 p-2.5 focus:outline-none shadow-[2px_2px_0px_rgba(0,0,0,1)] bg-[#FFA666]  XXXbg-[#ffdba6] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] rounded-md m-2 
 				${completed ? [styles.inner_complete, styles.inner].join(" ") : styles.inner}`}
-		>
-			{!editMode ? (
-				//TODO: style edit mode, stop propagations,  maybe edit in modal
+			>
 				<div>{item.value}</div>
-			) : (
+				{!completed && (
+					<div className={styles.options}>
+						<button
+							disabled={editMode}
+							onClick={(e) => {
+								e.stopPropagation();
+								setEditMode(true);
+							}}
+						>
+							<Pencil />
+						</button>
+						<button onClick={() => dispatch(removeItem(item.id))}>
+							<Trash />
+						</button>
+					</div>
+				)}
+			</div>
+			{editMode &&
 				createPortal(
 					<EditModal
 						initValue={item.value}
@@ -33,25 +49,7 @@ export const TaskItem = (props: TaskItemProps) => {
 						setEditMode={setEditMode}
 					/>,
 					document.body
-				)
-			)}
-
-			{!completed && (
-				<div className={styles.options}>
-					<button
-						disabled={editMode}
-						onClick={(e) => {
-							e.stopPropagation();
-							setEditMode(true);
-						}}
-					>
-						<Pencil />
-					</button>
-					<button onClick={() => dispatch(removeItem(item.id))}>
-						<Trash />
-					</button>
-				</div>
-			)}
-		</div>
+				)}
+		</>
 	);
 };

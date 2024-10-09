@@ -48,7 +48,7 @@ export const TaskItemWrapper = forwardRef(
 					className={styles.wrapper}
 					contentClassName={styles.content}
 					hideCollapseButton={true}
-					indentationWidth={32}
+					indentationWidth={64}
 					collapsed={false}
 					onClick={(e: Event) => {
 						handleComplitingTask(e);

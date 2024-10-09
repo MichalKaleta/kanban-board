@@ -15,19 +15,19 @@ const arr = [
 	{
 		id: "2",
 		value: "put some pants on",
-		parentId: 1,
+		parentId: "1",
 		column: 0,
 	},
 	{
 		id: "3",
 		value: "put sweater on",
-		parentId: 1,
+		parentId: "1",
 		column: 0,
 	},
 	{
 		id: "4",
 		value: "first put on a shirt ",
-		parentId: 3,
+		parentId: "3",
 		column: 0,
 	},
 	{

@@ -6,7 +6,7 @@ type ButtonContent = {
 };
 
 interface ButtonProps extends Partial<ButtonContent> {
-	type: "submit" | "button" | "reset";
+	type?: "submit" | "button" | "reset";
 	className?: string;
 	onClick?: (...args: any) => any;
 }
@@ -52,6 +52,7 @@ type InputProps = {
 	type?: HTMLInputTypeAttribute;
 	value: string;
 	placeholder: string | undefined;
+	textArea: boolean;
 };
 
 function Input({
@@ -62,20 +63,33 @@ function Input({
 	value = "",
 	onChange,
 	className,
+	textArea = false,
 	...rest
 }: InputProps) {
 	return (
 		<>
 			{label && <label htmlFor={name || label || ""}>{label}</label>}
-			<input
-				className={`w-96 border-black border-2 p-2.5 focus:outline-none focus:shadow-[2px_2px_0px_rgba(0,0,0,1)] focus:bg-[#FFA6F6] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] rounded-md m-2 ${className}`}
-				value={value}
-				name={name || label}
-				type={type}
-				placeholder={placeholder}
-				onChange={onChange}
-				{...rest}
-			/>
+			{!textArea ? (
+				<input
+					className={`w-96 border-black border-2 p-2.5 focus:outline-none focus:shadow-[2px_2px_0px_rgba(0,0,0,1)] focus:bg-[#FFA6F6] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] rounded-md m-2 ${className}`}
+					value={value}
+					name={name || label}
+					type={type}
+					placeholder={placeholder}
+					onChange={onChange}
+					{...rest}
+				/>
+			) : (
+				<textarea
+					className={`w-96 border-black border-2 p-2.5 focus:outline-none focus:shadow-[2px_2px_0px_rgba(0,0,0,1)] focus:bg-[#FFA6F6] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] rounded-md m-2 ${className}`}
+					value={value}
+					name={name || label}
+					// type={type}
+					placeholder={placeholder}
+					onChange={onChange}
+					{...rest}
+				/>
+			)}
 		</>
 	);
 }

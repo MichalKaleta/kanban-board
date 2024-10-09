@@ -18,7 +18,6 @@ export const EditModal = (props: EditModalProps) => {
 	const [value, setValue] = useState<string>("");
 
 	function handlSubmitValue() {
-		console.log(value, id);
 		dispatch(changeItemValue({ value, id }));
 		setEditMode(false);
 		setValue("");
@@ -35,13 +34,8 @@ export const EditModal = (props: EditModalProps) => {
 						}}
 						defaultValue={initValue || ""}
 						value={value}
+						textArea={true}
 					/>
-					{/* 	<textarea
-						//@ts-ignore
-						//ref={textInput}
-						className={styles.input}
-						defaultValue={initValue || ""}
-					/> */}
 					<Button text="OK" onClick={handlSubmitValue} />
 				</form>
 				<button
