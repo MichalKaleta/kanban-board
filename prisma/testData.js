@@ -1,4 +1,4 @@
-export const testUserItems = [
+const testUserItems = [
 	{
 		id: "1",
 		value: "dress youself for gods sake!",
@@ -42,3 +42,17 @@ export const testUserItems = [
 		userId: "1",
 	},
 ];
+
+async function addTestUser() {
+	await prisma.user.deleteMany();
+	await prisma.items.deleteMany();
+	const user = await prisma.user.create({
+		data: { login: "test_user", id: "1" },
+	});
+	const items = await prisma.items.createMany({
+		data: testUserItems,
+	});
+	console.log(items);
+}
+
+addTestUser();

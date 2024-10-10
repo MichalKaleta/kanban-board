@@ -1,20 +1,18 @@
 "use client";
-
 import { useSelector, useDispatch } from "react-redux";
 import { SortableTree } from "dnd-kit-sortable-tree";
 import {
   reorderItems,
-  addItem,
   undo,
   redo,
 } from "../../../../lib/features/board/boardSlice";
 import { TaskItemWrapper, AddButton } from "../taskItem";
 import styles from "./Board.module.css";
-import { TaskItem } from "../types";
 
-export const Board = () => {
-  const items = useSelector((state: { board: TaskItem[] }) => state.board);
+export const Board = ({ items }) => {
+  //const items = useSelector((state: { board: TaskItem[] }) => state.board);
   const dispatch = useDispatch();
+  console.log(items);
 
   function handleKeyDown(pressed: React.KeyboardEvent) {
     const { ctrlKey, key } = pressed;

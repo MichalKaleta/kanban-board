@@ -12,3 +12,8 @@ if (process.env.NODE_ENV === "production") {
 }
 
 export default prisma;
+
+export const getItems = async () => {
+	const items = await prisma.items.findMany({ where: { userId: "1" } });
+	return { props: { items } };
+};

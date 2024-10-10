@@ -1,24 +1,19 @@
 import type { Metadata } from "next";
-import { Board } from "./components/kanban/board/Board";
+import { nestArray } from "@/lib/arrayHelpers";
 import prisma from "../lib/prisma";
-import { testUserItems } from "./../prisma/testData";
+import { Board } from "./components/kanban/board/Board";
 
-async function addTestUser() {
-	await prisma.user.deleteMany();
-	await prisma.items.deleteMany();
-	const user = await prisma.user.create({
-		data: { login: "test_user", id: "1" },
+export default async function IndexPage() {
+	const items = await prisma.items.findMany({
+		where: { userId: "1" },
 	});
-	const items = await prisma.items.createMany({
-		data: testUserItems,
-	});
-	console.log(items);
-}
 
-//addTestUser();
-
-export default function IndexPage() {
-	return <Board />;
+	return (
+		<>
+			<p>test user</p>
+			<Board items={nestArray(items)} />
+		</>
+	);
 }
 
 export const metadata: Metadata = {
