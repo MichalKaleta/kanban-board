@@ -7,12 +7,13 @@ import {
   redo,
 } from "../../../../lib/features/board/boardSlice";
 import { TaskItemWrapper, AddButton } from "../taskItem";
+import { TaskItem } from "../types";
 import styles from "./Board.module.css";
 
-export const Board = ({ items }) => {
-  //const items = useSelector((state: { board: TaskItem[] }) => state.board);
+export const Board = (props: { items: TaskItem[] }) => {
+  const { items } = props;
+
   const dispatch = useDispatch();
-  console.log(items);
 
   function handleKeyDown(pressed: React.KeyboardEvent) {
     const { ctrlKey, key } = pressed;

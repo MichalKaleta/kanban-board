@@ -3,6 +3,7 @@ export type TaskItem = {
 	value: string;
 	parentId: string;
 	column: number;
+	userId: string;
 };
 
 export type TaskItemWrapperProps = {
