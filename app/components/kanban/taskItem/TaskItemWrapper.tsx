@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useRef, forwardRef } from "react";
 import { SimpleTreeItemWrapper } from "dnd-kit-sortable-tree";
 import styles from "./TaskItem.module.css";
@@ -6,11 +7,11 @@ import { AddButtonProps, TaskItemWrapperProps } from "../types";
 
 export const AddButton = ({
 	onClickhandler,
-	//depth = 1,
+	depth = 1,
 	text,
 }: AddButtonProps) => (
 	<button
-		//style={{ marginLeft: depth * 32 + "px" }}
+		style={{ marginLeft: depth * 32 + "px" }}
 		className={styles.add}
 		onClick={onClickhandler}
 	>
@@ -53,18 +54,19 @@ export const TaskItemWrapper = forwardRef(
 					onClick={(e: Event) => {
 						handleComplitingTask(e);
 					}}
-					onCollapse={() => null}
+					onRemove={() => console.log("DAFASDF")}
+					//onCollapse={() => null}
 				>
 					<div className={styles.wrapper}>
 						<TaskItem item={item} completed={completed} />
 					</div>
 				</SimpleTreeItemWrapper>
-				{/* 	{isLast && (
+				{isLast && (
 					<AddButton
-						onClickhandler={() => addItem(item.id)}
+						onClickhandler={() => null /* addItem(item.id) */}
 						depth={depth}
 					/>
-				)} */}
+				)}
 			</>
 		);
 	}

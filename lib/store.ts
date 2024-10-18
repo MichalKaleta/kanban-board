@@ -1,6 +1,10 @@
 import type { Action, ThunkAction } from "@reduxjs/toolkit";
 import { combineSlices, configureStore } from "@reduxjs/toolkit";
 import { boardSlice } from "./features/board/boardSlice";
+import createSagaMiddleware from "redux-saga";
+import rootSaga from "./sagas"; // You'll need to create this file
+
+const sagaMiddleware = createSagaMiddleware();
 
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
@@ -14,14 +18,16 @@ export type RootState = ReturnType<typeof rootReducer>;
 // are needed for each request to prevent cross-request state pollution.
 
 export const makeStore = () => {
-	return configureStore({
+	const store = configureStore({
 		reducer: rootReducer,
 		// Adding the api middleware enables caching, invalidation, polling,
 		// and other useful features of `rtk-query`.
-		/* 	middleware: (getDefaultMiddleware) => {
-			return getDefaultMiddleware().concat(quotesApiSlice.middleware);
-		}, */
+		middleware: (getDefaultMiddleware) => {
+			return getDefaultMiddleware().concat(sagaMiddleware);
+		},
 	});
+	sagaMiddleware.run(rootSaga);
+	return store;
 };
 
 // Infer the return type of `makeStore`

@@ -51,13 +51,15 @@ export const boardSlice = createSlice({
 				}
 				return item;
 			});
-			let a = nestArray(newVal);
-			addToHistory(a);
+
+			return nestArray(newVal);
+			//addToHistory(a);
 			return a;
 		},
 
 		reorderItems(state, action) {
-			console.log(state);
+			yield put(reorderItemsSaga(action.payload));
+			//addToHistory(action.payload);
 			return action.payload;
 		},
 

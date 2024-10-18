@@ -1,6 +1,8 @@
 "use client";
 import { useSelector, useDispatch } from "react-redux";
 import { SortableTree } from "dnd-kit-sortable-tree";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
+import { ErrorBoundryDisplay } from "../../_common/ErrorBoundryDisplay";
 import {
   reorderItems,
   undo,
@@ -41,9 +43,11 @@ export const Board = (props: { items: TaskItem[] }) => {
   );
 
   return (
-    <div className={styles.board}>
-      <BoardList index={0} />
-      <BoardList index={1} />
-    </div>
+    <ErrorBoundary errorComponent={ErrorBoundryDisplay}>
+      <div className={styles.board}>
+        <BoardList index={0} />
+        <BoardList index={1} />
+      </div>
+    </ErrorBoundary>
   );
 };
