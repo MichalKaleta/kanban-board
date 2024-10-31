@@ -3,6 +3,8 @@ import { createSlice, current, buildCreateSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 import { BoardInterface } from "../types";
 import { flatArray, nestArray } from "../../arrayHelpers";
+import { put, call, takeEvery } from "redux-saga/effects";
+
 const arr = [];
 const initialState: BoardInterface | Record<string, never> = nestArray(arr);
 
@@ -58,8 +60,12 @@ export const boardSlice = createSlice({
 		},
 
 		reorderItems(state, action) {
-			yield put(reorderItemsSaga(action.payload));
-			//addToHistory(action.payload);
+			/* 	yield put({
+				type: "SEND_ITEMS_ASYNC",
+				board: action.payload,
+			}); */
+			console.log("state");
+			console.log(action.payload);
 			return action.payload;
 		},
 
