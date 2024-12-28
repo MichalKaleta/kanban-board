@@ -9,7 +9,7 @@ import { TaskItemProps } from "../types";
 import { AddButtonProps, TaskItemWrapperProps } from "../types";
 
 export const TaskItem = (props: TaskItemProps) => {
-	let { completed, item, isLast, depth } = props;
+	let { completed, item } = props;
 	const [editMode, setEditMode] = useState<boolean>(false);
 	const dispatch = useDispatch();
 

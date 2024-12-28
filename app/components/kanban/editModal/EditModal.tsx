@@ -28,13 +28,12 @@ export const EditModal = (props: EditModalProps) => {
 			<div className={styles.wrapper}>
 				<form onClick={(e) => e.stopPropagation()}>
 					<Input
-						//autoFocus={true}
 						onChange={(e) => {
 							setValue(e.target.value);
 						}}
-						defaultValue={initValue || ""}
-						value={value}
+						value={value || initValue}
 						textArea={true}
+						placeholder="Enter text..."
 					/>
 					<Button text="OK" onClick={handlSubmitValue} />
 				</form>

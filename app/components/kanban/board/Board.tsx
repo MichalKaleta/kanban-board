@@ -7,21 +7,20 @@ import { TaskItem } from "../types";
 import styles from "./Board.module.css";
 import { reorderItems } from "@/app/store/boardSlice";
 import { useEffect } from "react";
-import type AppStore from "@/app/store";
+import type { RootState } from "@/app/store/store";
 
 export const Board = (props: { initialItems: TaskItem[] }) => {
 	const dispatch = useDispatch();
 	const [sendReorderedItems, results] = useReorderItemMutation();
 	const { data, isFetching } = useGetItemsQuery();
-	console.log("NEW DATA ARRIVED:  ", data);
 
 	useEffect(() => {
 		dispatch(reorderItems(props.initialItems));
 	}, [props.initialItems]);
 
-	const items = useSelector((state: AppStore) => state.board);
+	const items = useSelector((state: RootState) => state.board);
 
-	const BoardList = ({ index }) => (
+	const BoardList = ({ index = 0 }) => (
 		<ul
 			className={styles.list}
 			/* onKeyDown={handleKeyDown} */ tabIndex={0}
