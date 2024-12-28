@@ -1,18 +1,24 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { getItems } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
+
+import { cornersOfRectangle } from "@dnd-kit/core/dist/utilities/algorithms/helpers";
 
 interface Context {
 	params: Promise<undefined>;
 }
 
+export async function GET(request: NextRequest, context: Context) {
+	const items = await getItems();
+
+	console.log("SERVER", items);
+	const res = NextResponse.json(items);
+	return res;
+}
+
 export async function POST(request: NextRequest, context: Context) {
 	const items = await request.json();
-	//console.log(body);
-
-	// simulate IO latency
-	//await new Promise((resolve) => setTimeout(resolve, 500));
-
 	const res = NextResponse.json(items);
-	console.log(res);
 	return res;
 }

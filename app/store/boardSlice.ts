@@ -5,7 +5,6 @@ import { BoardInterface } from "../types";
 import { flatArray, nestArray } from "@/lib/arrayHelpers";
 import { put, call, takeEvery } from "redux-saga/effects";
 import { cornersOfRectangle } from "@dnd-kit/core/dist/utilities/algorithms/helpers";
-
 import { useReorderItemMutation } from "./boardApi";
 
 /* const [reorder, result];
@@ -60,14 +59,12 @@ export const boardSlice = createSlice({
 			});
 
 			return nestArray(newVal);
-			//addToHistory(a);
-			return a;
 		},
 
 		reorderItems(state, action) {
-			console.log("P{AYLOAD:", action.payload);
 			return action.payload;
 		},
+
 		undo() {
 			currentIndex = currentIndex - 1;
 			const formerState = history[currentIndex];

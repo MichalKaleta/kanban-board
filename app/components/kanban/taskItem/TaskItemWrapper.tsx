@@ -61,12 +61,12 @@ export const TaskItemWrapper = forwardRef(
 						<TaskItem item={item} completed={completed} />
 					</div>
 				</SimpleTreeItemWrapper>
-				{isLast && (
+				{/* 				{isLast && (
 					<AddButton
-						onClickhandler={() => null /* addItem(item.id) */}
+						onClickhandler={() => null /* addItem(item.id)s
 						depth={depth}
 					/>
-				)}
+				)} */}
 			</>
 		);
 	}

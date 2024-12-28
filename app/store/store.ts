@@ -5,7 +5,7 @@ import {
 	configureStore,
 } from "@reduxjs/toolkit";
 import { boardSlice } from "./boardSlice";
-import { boardApi, useReorderItemMutation } from "./boardApi";
+import { boardApi, useReorderItemMutation, useGetItemsQuery } from "./boardApi";
 import { setupListeners } from "@reduxjs/toolkit/query";
 
 export type RootState = ReturnType<typeof rootReducer>;
@@ -27,7 +27,7 @@ export const store = makeStore();
 
 setupListeners(store.dispatch);
 
-export { boardApi, useReorderItemMutation };
+export { boardApi, useReorderItemMutation, useGetItemsQuery };
 // Infer the return type of `makeStore`
 export type AppStore = ReturnType<typeof makeStore>;
 // Infer the `AppDispatch` type from the store itself

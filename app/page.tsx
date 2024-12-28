@@ -1,17 +1,14 @@
 import type { Metadata } from "next";
 import { nestArray } from "@/lib/arrayHelpers";
-import prisma from "../lib/prisma";
+import { getItems } from "@/lib/prisma";
 import { Board } from "./components/kanban/board/Board";
 
 export default async function IndexPage() {
-	const items = await prisma.items.findMany({
-		where: { userId: "1" },
-	});
-
+	const items = await getItems();
 	return (
 		<>
 			<p>test user</p>
-			<Board items={nestArray(items)} />
+			<Board initialItems={nestArray(items)} />
 		</>
 	);
 }

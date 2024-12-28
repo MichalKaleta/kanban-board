@@ -5,9 +5,17 @@ const boardApi = createApi({
 	baseQuery: fetchBaseQuery({
 		baseUrl: "http://localhost:3000",
 	}),
+	tagTypes: ["Items"],
 	endpoints(builder) {
 		return {
+			getItems: builder.query({
+				providesTags: ["Items"],
+				query: (items) => ({
+					url: "api/kanban",
+				}),
+			}),
 			reorderItem: builder.mutation({
+				invalidatesTags: ["Items"],
 				query: (items) => ({
 					url: "api/kanban",
 					method: "POST",
@@ -20,4 +28,4 @@ const boardApi = createApi({
 
 export { boardApi };
 
-export const { useReorderItemMutation } = boardApi;
+export const { useReorderItemMutation, useGetItemsQuery } = boardApi;

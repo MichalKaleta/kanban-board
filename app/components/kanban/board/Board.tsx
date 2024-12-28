@@ -2,34 +2,36 @@
 import { useSelector, useDispatch } from "react-redux";
 import { SortableTree } from "dnd-kit-sortable-tree";
 import { TaskItemWrapper, AddButton } from "../taskItem";
-import { useReorderItemMutation } from "@/app/store/boardApi";
+import { useReorderItemMutation, useGetItemsQuery } from "@/app/store/boardApi";
 import { TaskItem } from "../types";
 import styles from "./Board.module.css";
 import { reorderItems } from "@/app/store/boardSlice";
+import { useEffect } from "react";
 
-export const Board = (props: { items: TaskItem[] }) => {
-	const { items } = props;
-
+export const Board = (props: { initialItems: TaskItem[] }) => {
 	const dispatch = useDispatch();
 	const [sendReorderedItems, results] = useReorderItemMutation();
+	const { data, isFetching } = useGetItemsQuery();
+	console.log("NEW DATA ARRIVED:  ", data);
 
-	const items2 = useSelector((state) => state);
+	useEffect(() => {
+		dispatch(reorderItems(props.initialItems));
+	}, [props.initialItems]);
 
-	const items3 = items2?.board?.length > 0 ? items2?.board : items;
+	const items = useSelector((state) => state.board);
 
 	const BoardList = ({ index = 0 }) => (
 		<ul
 			className={styles.list}
 			/* onKeyDown={handleKeyDown} */ tabIndex={0}
 		>
-			{items3.length && (
+			{items && (
 				<SortableTree
-					items={items3.filter(({ column }) => column === index)}
-					onItemsChanged={(newOrder) =>
-						sendReorderedItems(newOrder).then((res) => {
-							dispatch(reorderItems(res.data));
-						})
-					}
+					items={items.filter(({ column }) => column === index)}
+					onItemsChanged={async (newOrder) => {
+						dispatch(reorderItems(newOrder));
+						await sendReorderedItems(newOrder);
+					}}
 					indentationWidth={32}
 					//@ts-ignore
 					TreeItemComponent={TaskItemWrapper}
