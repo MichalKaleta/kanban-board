@@ -7,6 +7,7 @@ import { TaskItem } from "../types";
 import styles from "./Board.module.css";
 import { reorderItems } from "@/app/store/boardSlice";
 import { useEffect } from "react";
+import type AppStore from "@/app/store";
 
 export const Board = (props: { initialItems: TaskItem[] }) => {
 	const dispatch = useDispatch();
@@ -18,16 +19,18 @@ export const Board = (props: { initialItems: TaskItem[] }) => {
 		dispatch(reorderItems(props.initialItems));
 	}, [props.initialItems]);
 
-	const items = useSelector((state) => state.board);
+	const items = useSelector((state: AppStore) => state.board);
 
-	const BoardList = ({ index = 0 }) => (
+	const BoardList = ({ index }) => (
 		<ul
 			className={styles.list}
 			/* onKeyDown={handleKeyDown} */ tabIndex={0}
 		>
 			{items && (
 				<SortableTree
-					items={items.filter(({ column }) => column === index)}
+					items={items.filter(
+						(item: TaskItem) => item.column === index
+					)}
 					onItemsChanged={async (newOrder) => {
 						dispatch(reorderItems(newOrder));
 						await sendReorderedItems(newOrder);

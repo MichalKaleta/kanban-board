@@ -11,8 +11,6 @@ interface Context {
 
 export async function GET(request: NextRequest, context: Context) {
 	const items = await getItems();
-
-	console.log("SERVER", items);
 	const res = NextResponse.json(items);
 	return res;
 }
