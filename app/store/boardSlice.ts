@@ -2,9 +2,14 @@
 import { createSlice, current, buildCreateSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 import { BoardInterface } from "../types";
-import { flatArray, nestArray } from "../../arrayHelpers";
+import { flatArray, nestArray } from "@/lib/arrayHelpers";
 import { put, call, takeEvery } from "redux-saga/effects";
+import { cornersOfRectangle } from "@dnd-kit/core/dist/utilities/algorithms/helpers";
 
+import { useReorderItemMutation } from "./boardApi";
+
+/* const [reorder, result];
+ */
 const arr = [];
 const initialState: BoardInterface | Record<string, never> = nestArray(arr);
 
@@ -60,15 +65,9 @@ export const boardSlice = createSlice({
 		},
 
 		reorderItems(state, action) {
-			/* 	yield put({
-				type: "SEND_ITEMS_ASYNC",
-				board: action.payload,
-			}); */
-			console.log("state");
-			console.log(action.payload);
+			console.log("P{AYLOAD:", action.payload);
 			return action.payload;
 		},
-
 		undo() {
 			currentIndex = currentIndex - 1;
 			const formerState = history[currentIndex];
@@ -94,5 +93,4 @@ export const {
 	redo,
 } = boardSlice.actions;
 
-console.log(boardSlice);
 export const boardReducer = boardSlice.reducer;

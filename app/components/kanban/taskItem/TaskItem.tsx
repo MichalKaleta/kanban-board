@@ -1,12 +1,9 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {
-	changeItemValue,
-	removeItem,
-} from "../../../../lib/features/board/boardSlice";
+import { changeItemValue, removeItem } from "@/app/store/boardSlice";
 import { EditModal } from "../editModal/EditModal";
-import { Trash, Pencil } from "../../../../assets/icons";
+import { Trash, Pencil } from "@/assets/icons";
 import styles from "./TaskItem.module.css";
 import { TaskItemProps } from "../types";
 import { AddButtonProps, TaskItemWrapperProps } from "../types";

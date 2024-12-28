@@ -1,4 +1,4 @@
-import { HTMLInputTypeAttribute } from "react";
+import { HTMLInputTypeAttribute, type JSX } from "react";
 
 type ButtonContent = {
 	children: React.ReactNode;
