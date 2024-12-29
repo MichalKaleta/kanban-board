@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { getItems } from "@/lib/prisma";
+import { getItemsfromDb } from "@/lib/prisma";
 import prisma from "@/lib/prisma";
 
 import { cornersOfRectangle } from "@dnd-kit/core/dist/utilities/algorithms/helpers";
@@ -10,7 +10,7 @@ interface Context {
 }
 
 export async function GET(request: NextRequest, context: Context) {
-	const items = await getItems();
+	const items = await getItemsfromDb();
 	const res = NextResponse.json(items);
 	return res;
 }

@@ -4,7 +4,7 @@ import {
 	addItem,
 	changeItemValue,
 	removeItem,
-} from "../../../store/boardSlice";
+} from "../../../../store/boardSlice";
 import { Input, Button } from "../../_common/Inputs";
 import { EditModalProps } from "../types";
 import styles from "./EditModal.module.css";

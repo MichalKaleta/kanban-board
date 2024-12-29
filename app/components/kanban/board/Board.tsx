@@ -2,12 +2,12 @@
 import { useSelector, useDispatch } from "react-redux";
 import { SortableTree } from "dnd-kit-sortable-tree";
 import { TaskItemWrapper, AddButton } from "../taskItem";
-import { useReorderItemMutation, useGetItemsQuery } from "@/app/store/boardApi";
+import { useReorderItemMutation, useGetItemsQuery } from "@/store/boardApi";
 import { TaskItem } from "../types";
 import styles from "./Board.module.css";
-import { reorderItems } from "@/app/store/boardSlice";
+import { reorderItems } from "@/store/boardSlice";
 import { useEffect } from "react";
-import type { RootState } from "@/app/store/store";
+import type { RootState } from "@/store/store";
 
 export const Board = (props: { initialItems: TaskItem[] }) => {
 	const dispatch = useDispatch();
@@ -23,9 +23,10 @@ export const Board = (props: { initialItems: TaskItem[] }) => {
 	const BoardList = ({ index = 0 }) => (
 		<ul
 			className={styles.list}
-			/* onKeyDown={handleKeyDown} */ tabIndex={0}
+			/* onKeyDown={handleKeyDown} */
+			tabIndex={0}
 		>
-			{items && (
+			{items && items.length > 0 && (
 				<SortableTree
 					items={items.filter(
 						(item: TaskItem) => item.column === index

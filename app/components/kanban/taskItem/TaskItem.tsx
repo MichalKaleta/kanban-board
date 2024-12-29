@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { changeItemValue, removeItem } from "@/app/store/boardSlice";
+import { changeItemValue, removeItem } from "@/store/boardSlice";
 import { EditModal } from "../editModal/EditModal";
 import { Trash, Pencil } from "@/assets/icons";
 import styles from "./TaskItem.module.css";
@@ -37,16 +37,16 @@ export const TaskItem = (props: TaskItemProps) => {
 					</div>
 				)}
 			</div>
-
+			{/* 
 			{editMode &&
-				createPortal(
+		 	createPortal(
 					<EditModal
 						initValue={item.value}
 						id={item.id}
 						setEditMode={setEditMode}
 					/>,
-					document.body
-				)}
+					window.document.body
+				)} */}
 		</>
 	);
 };
