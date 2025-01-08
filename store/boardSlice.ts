@@ -27,10 +27,10 @@ export const boardSlice = createSlice({
 	reducers: {
 		addItem(state, action) {
 			const items = [...current(state)];
-			const { parentId } = action.payload;
+			const { parent } = action.payload;
 			const newItem = { id: uuidv4(), value: "write something" };
-			if (parentId !== null) {
-				newItem.parentId = parentId;
+			if (parent !== null) {
+				newItem.parent = parent;
 			}
 			let newItems = flatArray(items);
 			newItems.push(newItem);

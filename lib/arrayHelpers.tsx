@@ -12,7 +12,9 @@ export function flatArray(a) {
 	var result = [];
 	for (let e of a) {
 		result.push({ ...e });
+
 		result = result.concat(flatArray(e.children));
 	}
+
 	return result;
 }

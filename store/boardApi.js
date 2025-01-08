@@ -22,10 +22,22 @@ const boardApi = createApi({
 					body: items,
 				}),
 			}),
+			createItem: builder.mutation({
+				invalidatesTags: ["Items"],
+				query: (newItem) => ({
+					url: "api/kanban",
+					method: "DELETE",
+					body: newItem,
+				}),
+			}),
 		};
 	},
 });
 
 export { boardApi };
 
-export const { useReorderItemMutation, useGetItemsQuery } = boardApi;
+export const {
+	useReorderItemMutation,
+	useGetItemsQuery,
+	useCreateItemMutation,
+} = boardApi;

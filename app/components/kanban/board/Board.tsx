@@ -8,6 +8,8 @@ import styles from "./Board.module.css";
 import { reorderItems } from "@/store/boardSlice";
 import { useEffect } from "react";
 import type { RootState } from "@/store/store";
+import { flatArray, nestArray } from "@/lib/arrayHelpers";
+import { reorderItemsInDb } from "@/lib/prisma";
 
 export const Board = (props: { initialItems: TaskItem[] }) => {
 	const dispatch = useDispatch();
@@ -15,8 +17,8 @@ export const Board = (props: { initialItems: TaskItem[] }) => {
 	const { data, isFetching } = useGetItemsQuery();
 
 	useEffect(() => {
-		dispatch(reorderItems(props.initialItems));
-	}, [props.initialItems]);
+		dispatch(reorderItems(data || props.initialItems));
+	}, [props.initialItems, data]);
 
 	const items = useSelector((state: RootState) => state.board);
 
@@ -26,14 +28,22 @@ export const Board = (props: { initialItems: TaskItem[] }) => {
 			/* onKeyDown={handleKeyDown} */
 			tabIndex={0}
 		>
+			<button
+				onClick={async () => {
+					await sendReorderedItems(items);
+				}}
+			>
+				send test items
+			</button>
 			{items && items.length > 0 && (
 				<SortableTree
-					items={items.filter(
+					items={nestArray(items).filter(
 						(item: TaskItem) => item.column === index
 					)}
 					onItemsChanged={async (newOrder) => {
-						dispatch(reorderItems(newOrder));
-						await sendReorderedItems(newOrder);
+						const newOrderFlat = flatArray(newOrder);
+						dispatch(reorderItems(newOrderFlat));
+						await sendReorderedItems(newOrderFlat);
 					}}
 					indentationWidth={32}
 					//@ts-ignore
