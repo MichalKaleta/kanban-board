@@ -17,9 +17,9 @@ export async function GET(request: NextRequest, context: Context) {
 }
 
 export async function POST(request: NextRequest, context: Context) {
-	//const items = await request.json();
-	const items = testInitialItems;
-	reorderItemsInDb(items);
+	const items = await request.json();
+
+	await reorderItemsInDb(items);
 
 	const res = NextResponse.json(items);
 	return res;

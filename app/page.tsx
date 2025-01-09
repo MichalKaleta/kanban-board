@@ -9,7 +9,6 @@ import { selectUsers } from "@/app/db/index";
 export default async function IndexPage() {
 	//addTestData();
 	const items = await getItemsfromDb();
-	//const items = await selectUsers();
 	console.log(items);
 	return (
 		<div>

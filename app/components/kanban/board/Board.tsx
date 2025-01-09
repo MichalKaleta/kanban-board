@@ -10,17 +10,18 @@ import { useEffect } from "react";
 import type { RootState } from "@/store/store";
 import { flatArray, nestArray } from "@/lib/arrayHelpers";
 import { reorderItemsInDb } from "@/lib/prisma";
+import { testInitialItems, testSendItems } from "@/prisma/testData";
 
 export const Board = (props: { initialItems: TaskItem[] }) => {
 	const dispatch = useDispatch();
 	const [sendReorderedItems, results] = useReorderItemMutation();
-	const { data, isFetching } = useGetItemsQuery();
-
-	useEffect(() => {
+	const { data: items, isFetching, isLoading } = useGetItemsQuery();
+	console.log("data: ", items, "fetcng:  ", isFetching);
+	/* 	useEffect(() => {
 		dispatch(reorderItems(data || props.initialItems));
-	}, [props.initialItems, data]);
+	}, [props.initialItems, data]); */
 
-	const items = useSelector((state: RootState) => state.board);
+	//useSelector((state: RootState) => state.board);
 
 	const BoardList = ({ index = 0 }) => (
 		<ul
@@ -28,22 +29,14 @@ export const Board = (props: { initialItems: TaskItem[] }) => {
 			/* onKeyDown={handleKeyDown} */
 			tabIndex={0}
 		>
-			<button
-				onClick={async () => {
-					await sendReorderedItems(items);
-				}}
-			>
-				send test items
-			</button>
-			{items && items.length > 0 && (
+			{items.length > 0 && (
 				<SortableTree
 					items={nestArray(items).filter(
 						(item: TaskItem) => item.column === index
 					)}
-					onItemsChanged={async (newOrder) => {
-						const newOrderFlat = flatArray(newOrder);
-						dispatch(reorderItems(newOrderFlat));
-						await sendReorderedItems(newOrderFlat);
+					onItemsChanged={(newOrder) => {
+						//dispatch(reorderItems(newOrderFlat));
+						sendReorderedItems(flatArray(newOrder));
 					}}
 					indentationWidth={32}
 					//@ts-ignore
@@ -54,11 +47,15 @@ export const Board = (props: { initialItems: TaskItem[] }) => {
 	);
 
 	return (
-		/*     <ErrorBoundary errorComponent={ErrorBoundaryDisplay}> */
-		<div className={styles.board}>
-			<BoardList index={0} />
-			<BoardList index={1} />
-		</div>
-		/* s */
+		<>
+			{isFetching && "Fetching"}
+			{isLoading && "Loadnig"}
+			{items && !isFetching && !isLoading && (
+				<div className={styles.board}>
+					<BoardList index={0} />
+					<BoardList index={1} />
+				</div>
+			)}
+		</>
 	);
 };

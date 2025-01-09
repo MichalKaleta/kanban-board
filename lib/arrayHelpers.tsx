@@ -11,9 +11,9 @@ export function nestArray(items, id = null, link = "parentId") {
 export function flatArray(a) {
 	var result = [];
 	for (let e of a) {
-		result.push({ ...e });
-
-		result = result.concat(flatArray(e.children));
+		const children = e.children;
+		result.push({ ...e, children: null });
+		result = result.concat(flatArray(children));
 	}
 
 	return result;

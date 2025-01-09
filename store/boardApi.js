@@ -26,7 +26,7 @@ const boardApi = createApi({
 				invalidatesTags: ["Items"],
 				query: (newItem) => ({
 					url: "api/kanban",
-					method: "DELETE",
+					method: "PUT",
 					body: newItem,
 				}),
 			}),

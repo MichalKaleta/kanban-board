@@ -36,8 +36,8 @@ export const reorderItemsInDb = async (reorderedItems: TaskItem[]) => {
 	return items;
 };
 
-export async function createItemsInDb() {
+/* export async function createItemsInDb() {
 	await prisma.items.createMany({
 		data: testInitialItems,
 	});
-}
+} */
