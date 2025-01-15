@@ -4,7 +4,9 @@
 	flex-basis: 100%;
 	cursor: grab;
 }
-
+.item {
+	border: 1px solid #99ff99;
+}
 .content {
 	border: none !important;
 	padding: 0 !important;
@@ -20,7 +22,6 @@
 	padding: 8px 16px;
 	margin: 0;
 	color: #001c39;
-
 	&.inner_complete {
 		background-color: rgb(255, 216, 240);
 		background-color: rgb(225, 179, 213);

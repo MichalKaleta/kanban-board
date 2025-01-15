@@ -1,18 +1,14 @@
 import type { Metadata } from "next";
-import { nestArray } from "@/lib/arrayHelpers";
-import { getItemsfromDb } from "@/lib/prisma";
+import { getItemsfromDb, createTestItemsInDb } from "@/lib/prisma";
 import { Board } from "./components/kanban/board/Board";
-import { addTestData } from "../prisma/testData";
-import { reorderItemsInDb } from "@/lib/prisma";
-import { selectUsers } from "@/app/db/index";
 
 export default async function IndexPage() {
-	//addTestData();
 	const items = await getItemsfromDb();
-	console.log(items);
+
+	items.length === 0 && createTestItemsInDb();
 	return (
 		<div>
-			<p>test user</p>
+			<header>fsdf</header>
 			<Board initialItems={items} />
 		</div>
 	);

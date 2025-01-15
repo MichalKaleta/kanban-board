@@ -16,8 +16,11 @@ export const TaskItem = (props: TaskItemProps) => {
 	return (
 		<>
 			<div
-				className={`border-black border-2 p-2.5 focus:outline-none shadow-[2px_2px_0px_rgba(0,0,0,1)] bg-[#FFA666]  XXXbg-[#ffdba6] active:shadow-[2px_2px_0px_rgba(0,0,0,1)] rounded-md m-2 
-				${completed ? [styles.inner_complete, styles.inner].join(" ") : styles.inner}`}
+				className={
+					completed
+						? [styles.inner_complete, styles.inner].join(" ")
+						: styles.inner
+				}
 			>
 				<div>{item.value}</div>
 				{!completed && (
@@ -37,16 +40,16 @@ export const TaskItem = (props: TaskItemProps) => {
 					</div>
 				)}
 			</div>
-			{/* 
+
 			{editMode &&
-		 	createPortal(
+				createPortal(
 					<EditModal
 						initValue={item.value}
 						id={item.id}
 						setEditMode={setEditMode}
 					/>,
 					window.document.body
-				)} */}
+				)}
 		</>
 	);
 };

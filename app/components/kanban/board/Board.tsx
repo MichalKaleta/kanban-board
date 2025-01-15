@@ -1,6 +1,8 @@
 "use client";
-import { useSelector, useDispatch } from "react-redux";
-import { SortableTree } from "dnd-kit-sortable-tree";
+import { useState } from "react";
+//import { useSelector, useDispatch } from "react-redux";
+import clsx from "clsx";
+import { SortableTree, TreeItem } from "dnd-kit-sortable-tree";
 import { TaskItemWrapper, AddButton } from "../taskItem";
 import { useReorderItemMutation, useGetItemsQuery } from "@/store/boardApi";
 import { TaskItem } from "../types";
@@ -9,35 +11,37 @@ import { reorderItems } from "@/store/boardSlice";
 import { useEffect } from "react";
 import type { RootState } from "@/store/store";
 import { flatArray, nestArray } from "@/lib/arrayHelpers";
-import { reorderItemsInDb } from "@/lib/prisma";
-import { testInitialItems, testSendItems } from "@/prisma/testData";
 
 export const Board = (props: { initialItems: TaskItem[] }) => {
-	const dispatch = useDispatch();
-	const [sendReorderedItems, results] = useReorderItemMutation();
-	const { data: items, isFetching, isLoading } = useGetItemsQuery();
-	console.log("data: ", items, "fetcng:  ", isFetching);
-	/* 	useEffect(() => {
-		dispatch(reorderItems(data || props.initialItems));
-	}, [props.initialItems, data]); */
+	const [items, setItems] = useState<TaskItem[]>(props.initialItems);
+	const [sendReorderedItems, { isLoading: isSendingLoading }] =
+		useReorderItemMutation();
+	const { data, isFetching, isLoading } = useGetItemsQuery();
+	/* 
+	useEffect(() => {
+		if (data) {
+			setItems(data);
+			return;
+		}
+	}, [data]); */
 
-	//useSelector((state: RootState) => state.board);
+	const handleItemchange = (newOrder: TreeItem<Record<string, any>>[]) => {
+		const newOrderFlat = flatArray(newOrder);
+		setItems(newOrderFlat);
+		sendReorderedItems(newOrderFlat);
+	};
+
+	//console.log(data);
+	const renderItemsData = isSendingLoading || isLoading ? items : data;
 
 	const BoardList = ({ index = 0 }) => (
-		<ul
-			className={styles.list}
-			/* onKeyDown={handleKeyDown} */
-			tabIndex={0}
-		>
-			{items.length > 0 && (
+		<ul className={styles.list} tabIndex={0}>
+			{renderItemsData && renderItemsData.length > 0 && (
 				<SortableTree
 					items={nestArray(items).filter(
 						(item: TaskItem) => item.column === index
 					)}
-					onItemsChanged={(newOrder) => {
-						//dispatch(reorderItems(newOrderFlat));
-						sendReorderedItems(flatArray(newOrder));
-					}}
+					onItemsChanged={(newOrder) => handleItemchange(newOrder)}
 					indentationWidth={32}
 					//@ts-ignore
 					TreeItemComponent={TaskItemWrapper}
@@ -45,17 +49,13 @@ export const Board = (props: { initialItems: TaskItem[] }) => {
 			)}
 		</ul>
 	);
-
+	const boardClass = clsx(styles.board, isFetching && styles.board_fetching);
 	return (
-		<>
-			{isFetching && "Fetching"}
-			{isLoading && "Loadnig"}
-			{items && !isFetching && !isLoading && (
-				<div className={styles.board}>
-					<BoardList index={0} />
-					<BoardList index={1} />
-				</div>
-			)}
-		</>
+		renderItemsData && (
+			<div className={boardClass}>
+				<BoardList index={0} />
+				<BoardList index={1} />
+			</div>
+		)
 	);
 };

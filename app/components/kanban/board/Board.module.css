@@ -1,22 +1,27 @@
 .board {
-  display: flex;
-  margin: 8px;
-  gap: 16px;
+	display: flex;
+	margin: 8px;
+	gap: 16px;
 
-  .list {
-    flex: 1;
-    display: inline-flex;
-    flex-direction: column;
-    flex-basis: 598px;
-    max-width: 50%;
-    min-height: 100vh;
-    margin: 16px 76px;
-    padding: 16px;
-    border-radius: 2px;
-    background-color: #ffffff;
-    overflow-y: auto;
-    overflow-x: hidden;
-    margin: auto;
-    box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.5);
-  }
+	&.board_fetching {
+		cursor: wait;
+	}
+
+	.list {
+		flex: 1;
+		display: inline-flex;
+		flex-direction: column;
+		flex-basis: 598px;
+		max-width: 50%;
+		min-height: 100vh;
+		margin: 16px 76px;
+		padding: 16px;
+		border-radius: 2px;
+		background-color: #ffffff;
+		overflow-y: auto;
+		overflow-x: hidden;
+		margin: auto;
+		background-color: #5b5b6d;
+		box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.5);
+	}
 }
