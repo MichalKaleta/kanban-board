@@ -14,29 +14,25 @@ import { flatArray, nestArray } from "@/lib/arrayHelpers";
 
 export const Board = (props: { initialItems: TaskItem[] }) => {
 	const [items, setItems] = useState<TaskItem[]>(props.initialItems);
-	const [sendReorderedItems, { isLoading: isSendingLoading }] =
-		useReorderItemMutation();
+	const [sendReorderedItems, results] = useReorderItemMutation();
 	const { data, isFetching, isLoading } = useGetItemsQuery();
-	/* 
+
 	useEffect(() => {
-		if (data) {
-			setItems(data);
-			return;
-		}
-	}, [data]); */
+		setItems(data);
+	}, [data]);
 
 	const handleItemchange = (newOrder: TreeItem<Record<string, any>>[]) => {
 		const newOrderFlat = flatArray(newOrder);
 		setItems(newOrderFlat);
 		sendReorderedItems(newOrderFlat);
 	};
-
-	//console.log(data);
-	const renderItemsData = isSendingLoading || isLoading ? items : data;
+	/*TO DO: TOO MUCH RERENDERS
+	console.log("RERENDER");
+	const renderItemsData = items; */
 
 	const BoardList = ({ index = 0 }) => (
 		<ul className={styles.list} tabIndex={0}>
-			{renderItemsData && renderItemsData.length > 0 && (
+			{items && items.length > 0 && (
 				<SortableTree
 					items={nestArray(items).filter(
 						(item: TaskItem) => item.column === index
@@ -51,7 +47,7 @@ export const Board = (props: { initialItems: TaskItem[] }) => {
 	);
 	const boardClass = clsx(styles.board, isFetching && styles.board_fetching);
 	return (
-		renderItemsData && (
+		items && (
 			<div className={boardClass}>
 				<BoardList index={0} />
 				<BoardList index={1} />
