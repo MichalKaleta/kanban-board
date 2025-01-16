@@ -1,19 +1,25 @@
 "use client";
 import { useState } from "react";
-//import { useSelector, useDispatch } from "react-redux";
+import { createPortal } from "react-dom";
 import clsx from "clsx";
 import { SortableTree, TreeItem } from "dnd-kit-sortable-tree";
 import { TaskItemWrapper, AddButton } from "../taskItem";
-import { useReorderItemMutation, useGetItemsQuery } from "@/store/boardApi";
+import {
+	useReorderItemMutation,
+	useGetItemsQuery,
+	useCreateItemMutation,
+} from "@/store/boardApi";
 import { TaskItem } from "../types";
 import styles from "./Board.module.css";
-import { reorderItems } from "@/store/boardSlice";
 import { useEffect } from "react";
-import type { RootState } from "@/store/store";
 import { flatArray, nestArray } from "@/lib/arrayHelpers";
+import { Button } from "@/app/components/_common/Inputs";
+import { EditModal } from "@/app/components/kanban/editModal/EditModal";
 
 export const Board = (props: { initialItems: TaskItem[] }) => {
 	const [items, setItems] = useState<TaskItem[]>(props.initialItems);
+	const [addNewItemModal, setAddNewItemModal] = useState<boolean>(false);
+
 	const [sendReorderedItems, results] = useReorderItemMutation();
 	const { data, isFetching, isLoading } = useGetItemsQuery();
 
@@ -49,8 +55,14 @@ export const Board = (props: { initialItems: TaskItem[] }) => {
 	return (
 		items && (
 			<div className={boardClass}>
+				<Button onClick={useCreateItemMutation} />
 				<BoardList index={0} />
-				<BoardList index={1} />
+				{/* <BoardList index={1} /> */}
+				{addNewItemModal &&
+					createPortal(
+						<EditModal setEditMode={setAddNewItemModal} />,
+						window.document.body
+					)}
 			</div>
 		)
 	);

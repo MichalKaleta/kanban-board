@@ -21,8 +21,8 @@ export type TaskItemProps = {
 };
 
 export type EditModalProps = {
-	initValue: string;
-	id: string;
+	id?: string;
+	initValue?: string;
 	setEditMode: (editMode: boolean) => void;
 };
 
