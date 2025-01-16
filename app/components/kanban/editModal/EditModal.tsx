@@ -40,6 +40,7 @@ export const EditModal = (props: EditModalProps) => {
 						text="OK"
 						onClick={(e) => {
 							useCreateItemMutation(item);
+							setEditMode(false);
 						}}
 					/>
 				</form>
