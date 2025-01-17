@@ -8,7 +8,7 @@ type ButtonContent = {
 interface ButtonProps extends Partial<ButtonContent> {
 	type?: "submit" | "button" | "reset";
 	className?: string;
-	onClick?: (...args: any) => any;
+	handleClick?: (...args: any) => any;
 }
 
 function Button({
@@ -16,7 +16,7 @@ function Button({
 	text = "Submit",
 	className = "",
 	children,
-	onClick,
+	handleClick = () => null,
 }: ButtonProps) {
 	return (
 		<>
@@ -25,7 +25,7 @@ function Button({
 				type={type}
 				onClick={(e) => {
 					e.preventDefault();
-					onClick && onClick(e);
+					handleClick();
 				}}
 			>
 				<span

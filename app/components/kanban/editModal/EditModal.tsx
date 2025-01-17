@@ -1,27 +1,30 @@
-import { uuid } from "drizzle-orm/pg-core";
 import { useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import {
-	addItem,
-	changeItemValue,
-	removeItem,
-} from "../../../../store/boardSlice";
+import { v4 as uuidv4 } from "uuid";
 import { Input, Button } from "@/app/components/_common/Inputs";
-import { EditModalProps } from "../types";
 import { useCreateItemMutation } from "@/store/store";
+import { EditModalProps, TaskItem } from "../types";
 import styles from "./EditModal.module.css";
+
 //const textInput = useRef<HTMLInputElement | null>(null);
 //textInput.current && textInput.current.focus();
 
 export const EditModal = (props: EditModalProps) => {
-	const { initValue = "", id = uuid(), setEditMode } = props;
+	const { initValue = "", id = uuidv4(), setEditMode } = props;
 
 	const [value, setValue] = useState<string>("");
-	const item = {
+	const [sendNewItem] = useCreateItemMutation();
+
+	const item: TaskItem = {
 		id,
 		value,
 		parentId: null,
 		parent: null,
+		column: 0,
+		userId: "1",
+		children: null,
+		index: 2,
+		isLast: false,
+		depth: 0,
 	};
 
 	return (
@@ -38,9 +41,9 @@ export const EditModal = (props: EditModalProps) => {
 					/>
 					<Button
 						text="OK"
-						onClick={(e) => {
-							useCreateItemMutation(item);
+						handleClick={() => {
 							setEditMode(false);
+							sendNewItem(item);
 						}}
 					/>
 				</form>

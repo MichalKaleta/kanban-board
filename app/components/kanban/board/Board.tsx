@@ -55,7 +55,10 @@ export const Board = (props: { initialItems: TaskItem[] }) => {
 	return (
 		items && (
 			<div className={boardClass}>
-				<Button onClick={useCreateItemMutation} />
+				<Button
+					text="Add item"
+					handleClick={() => setAddNewItemModal(true)}
+				/>
 				<BoardList index={0} />
 				{/* <BoardList index={1} /> */}
 				{addNewItemModal &&

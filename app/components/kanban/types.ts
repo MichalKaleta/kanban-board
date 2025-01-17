@@ -6,6 +6,9 @@ export type TaskItem = {
 	column: number;
 	userId: string;
 	children: TaskItem[] | null;
+	index: number;
+	isLast: boolean;
+	depth: number;
 };
 
 export type TaskItemWrapperProps = {
