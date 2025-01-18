@@ -5,8 +5,8 @@ export type TaskItem = {
 	parentId: string | null;
 	column: number;
 	userId: string;
-	children: TaskItem[] | null;
-	index: number;
+	children: number | null;
+	index?: number | undefined;
 	isLast: boolean;
 	depth: number;
 };

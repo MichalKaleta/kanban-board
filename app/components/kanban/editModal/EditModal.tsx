@@ -22,7 +22,6 @@ export const EditModal = (props: EditModalProps) => {
 		column: 0,
 		userId: "1",
 		children: null,
-		index: 2,
 		isLast: false,
 		depth: 0,
 	};

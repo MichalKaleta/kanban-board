@@ -31,13 +31,19 @@ export const reorderItemsInDb = async (reorderedItems: TaskItem[]) => {
 		where: { userId: "1" },
 	});
 	const items = await prisma.items.createMany({
-		data: reorderedItems,
+		data: reorderedItems.map((item, i) => ({
+			...item,
+			index: item.index ?? i,
+		})),
 	});
 	return items;
 };
 
 export async function createTestItemInDb(item: TaskItem) {
 	await prisma.items.create({
-		data: item,
+		data: {
+			...item,
+			index: item.index ?? 0,
+		},
 	});
 }
