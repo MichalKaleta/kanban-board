@@ -17,7 +17,12 @@ import { Button } from "@/app/components/_common/Inputs";
 import { EditModal } from "@/app/components/kanban/editModal/EditModal";
 
 export const Board = (props: { initialItems: TaskItem[] }) => {
-	const [items, setItems] = useState<TaskItem[]>(props.initialItems);
+	const [items, setItems] = useState<TaskItem[]>();
+
+	useEffect(() => {
+		setItems(props.initialItems);
+	}, [props.initialItems]);
+
 	const [addNewItemModal, setAddNewItemModal] = useState<boolean>(false);
 
 	const [sendReorderedItems, results] = useReorderItemMutation();
@@ -38,22 +43,21 @@ export const Board = (props: { initialItems: TaskItem[] }) => {
 
 	const BoardList = ({ index = 0 }) => (
 		<ul className={styles.list} tabIndex={0}>
-			{items && items.length > 0 && (
-				<SortableTree
-					items={nestArray(items).filter(
-						(item: TaskItem) => item.column === index
-					)}
-					onItemsChanged={(newOrder) => handleItemchange(newOrder)}
-					indentationWidth={32}
-					//@ts-ignore
-					TreeItemComponent={TaskItemWrapper}
-				/>
-			)}
+			<SortableTree
+				items={nestArray(items).filter(
+					(item: TaskItem) => item.column === index
+				)}
+				onItemsChanged={(newOrder) => handleItemchange(newOrder)}
+				indentationWidth={32}
+				//@ts-ignore
+				TreeItemComponent={TaskItemWrapper}
+			/>
 		</ul>
 	);
 	const boardClass = clsx(styles.board, isFetching && styles.board_fetching);
 	return (
-		items && (
+		items &&
+		items.length > 0 && (
 			<div className={boardClass}>
 				<Button
 					text="Add item"
